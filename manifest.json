@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "updated_at_ms": 1748390400000,
+  "regions": [
+    { "source": "TW_165", "file": "regional/tw_165.json", "etag": "placeholder" },
+    { "source": "HK_POLICE", "file": "regional/hk_police.json", "etag": "placeholder" },
+    { "source": "CN_12321", "file": "regional/cn_12321.json", "etag": "placeholder" },
+    { "source": "UK_NCSC", "file": "regional/uk_ncsc.json", "etag": "placeholder" },
+    { "source": "US_FTC", "file": "regional/us_ftc.json", "etag": "placeholder" }
+  ]
+}
