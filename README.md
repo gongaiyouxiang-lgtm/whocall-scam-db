@@ -9,50 +9,63 @@ Hosted via GitHub Pages at https://gongaiyouxiang-lgtm.github.io/whocall-scam-db
 ## Layout
 
 ```
-manifest.json            # index of regional files + their ETag/last-updated
-regional/
-  tw_165.json            # Taiwan 165 anti-fraud line
-  hk_police.json         # Hong Kong Police CADRC
-  cn_12321.json          # China 12321 spam reporting
-  uk_ncsc.json           # UK National Cyber Security Centre
-  us_ftc.json            # US Federal Trade Commission
+manifest.json               # index of regional files + sha256-tail etags
+regional/<source>.json      # one file per source, consumed by the app
+manual/<source>.csv         # human-curated input (this is the source of truth)
+scripts/refresh.py          # rebuilds regional/ + manifest.json from manual/
+.github/workflows/refresh.yml  # weekly + manual GitHub Actions run
 ```
 
-## Wire format
+## How updates work
 
-`manifest.json`:
+1. Edit any `manual/<source>.csv` and open a PR (or push directly).
+2. The Actions workflow runs `scripts/refresh.py` weekly (Mondays 00:00 UTC)
+   and on `workflow_dispatch`.
+3. The script normalises numbers, regenerates `regional/<source>.json`, and
+   updates `manifest.json` with new `updated_at_ms` + etag.
+4. If anything changed, Actions commits + pushes back to `main`. GitHub
+   Pages redeploys automatically (~30 seconds).
+5. The Who Call app's `ScamDbUpdateWorker` pulls the fresh manifest on its
+   weekly schedule or whenever the user taps "立即更新" in Settings.
 
-```json
-{
-  "version": 1,
-  "updated_at_ms": 1748390400000,
-  "regions": [
-    { "source": "TW_165", "file": "regional/tw_165.json", "etag": "<sha256>" }
-  ]
-}
+## CSV format
+
+```
+number,reported_at,category
+0229991111,2025-09-01,investment_fraud
++85299990001,2025-08-12,phishing
 ```
 
-Each regional file:
+- `number` — accepted in any common shape (with dashes, spaces, country
+  code, etc.). The script strips everything except digits and a leading `+`.
+- `reported_at` — `YYYY-MM-DD`; falls back to "now" if blank.
+- `category` — free-form short tag. Convention: `snake_case`.
 
-```json
-{
-  "source": "TW_165",
-  "updated_at_ms": 1748390400000,
-  "entries": [
-    {
-      "number": "0212345678",
-      "reported_at_ms": 1744000000000,
-      "category": "investment_fraud"
-    }
-  ]
-}
+## Sources covered
+
+| `source` enum | Originating reporter |
+|---|---|
+| `TW_165` | Taiwan 165 anti-fraud line |
+| `HK_POLICE` | Hong Kong Police CADRC |
+| `CN_12321` | PRC 12321 anti-spam reporting |
+| `UK_NCSC` | UK National Cyber Security Centre |
+| `US_FTC` | US Federal Trade Commission |
+
+These match `com.ppinter.whocall.data.db.ScamSource` on the Android side.
+
+## Local development
+
+```bash
+python scripts/refresh.py
 ```
 
-`source` must be one of `TW_165`, `HK_POLICE`, `CN_12321`, `UK_NCSC`, `US_FTC`,
-`MANUAL` — matching `com.ppinter.whocall.data.db.ScamSource`.
+Outputs are deterministic given the same `manual/*.csv` + clock tick, so the
+diff after running locally previews exactly what Actions will commit.
 
-## Updating
+## Caveats
 
-Phase 2 will add a GitHub Actions workflow that periodically scrapes the
-upstream public sources, normalises the numbers, and pushes a refreshed
-manifest. Until then the regional files here are placeholders.
+The numbers currently in `manual/*.csv` are **synthetic placeholders** chosen
+from reserved-for-fiction ranges (Taiwan 02-2999-xxxx, HK +852-9999-xxxx, UK
+Ofcom +447700-900xxx drama range, US +1-202-555-01xx). Replace with real
+reported scams as you collect them. Never commit a number that might belong
+to a real subscriber without a public-source citation.

@@ -1,0 +1,5 @@
+number,reported_at,category
++8613000000001,2025-08-01,robocall
++8613000000002,2025-09-10,phishing
++8613000000003,2025-10-12,fake_official
++8613000000004,2025-11-02,health_product_scam

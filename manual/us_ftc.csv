@@ -1,0 +1,5 @@
+number,reported_at,category
++12025550100,2025-08-12,irs_scam
++12025550101,2025-09-08,medicare_scam
++12025550102,2025-10-15,robocall
++12125550103,2025-10-30,bank_imposter

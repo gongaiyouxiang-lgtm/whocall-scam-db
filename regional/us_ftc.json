@@ -1,5 +1,26 @@
 {
   "source": "US_FTC",
-  "updated_at_ms": 1748390400000,
-  "entries": []
+  "updated_at_ms": 1780057810784,
+  "entries": [
+    {
+      "number": "+12025550100",
+      "reported_at_ms": 1754928000000,
+      "category": "irs_scam"
+    },
+    {
+      "number": "+12025550101",
+      "reported_at_ms": 1757260800000,
+      "category": "medicare_scam"
+    },
+    {
+      "number": "+12025550102",
+      "reported_at_ms": 1760457600000,
+      "category": "robocall"
+    },
+    {
+      "number": "+12125550103",
+      "reported_at_ms": 1761753600000,
+      "category": "bank_imposter"
+    }
+  ]
 }

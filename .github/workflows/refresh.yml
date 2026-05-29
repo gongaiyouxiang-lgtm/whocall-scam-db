@@ -1,0 +1,36 @@
+name: Refresh scam database
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'   # Mondays at 00:00 UTC (~Mon 08:00 Taipei)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run refresh script
+        run: python scripts/refresh.py
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain manifest.json regional/)" ]]; then
+            git add manifest.json regional/
+            git commit -m "Refresh scam database via scheduled run"
+            git push
+          else
+            echo "No changes."
+          fi

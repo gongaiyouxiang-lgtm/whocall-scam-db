@@ -1,5 +1,26 @@
 {
   "source": "CN_12321",
-  "updated_at_ms": 1748390400000,
-  "entries": []
+  "updated_at_ms": 1780057810784,
+  "entries": [
+    {
+      "number": "+8613000000001",
+      "reported_at_ms": 1753977600000,
+      "category": "robocall"
+    },
+    {
+      "number": "+8613000000002",
+      "reported_at_ms": 1757433600000,
+      "category": "phishing"
+    },
+    {
+      "number": "+8613000000003",
+      "reported_at_ms": 1760198400000,
+      "category": "fake_official"
+    },
+    {
+      "number": "+8613000000004",
+      "reported_at_ms": 1762012800000,
+      "category": "health_product_scam"
+    }
+  ]
 }

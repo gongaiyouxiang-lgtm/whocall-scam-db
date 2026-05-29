@@ -1,5 +1,26 @@
 {
   "source": "HK_POLICE",
-  "updated_at_ms": 1748390400000,
-  "entries": []
+  "updated_at_ms": 1780057810784,
+  "entries": [
+    {
+      "number": "+85299990001",
+      "reported_at_ms": 1754928000000,
+      "category": "phishing"
+    },
+    {
+      "number": "+85299990002",
+      "reported_at_ms": 1758470400000,
+      "category": "fake_courier"
+    },
+    {
+      "number": "+85299990003",
+      "reported_at_ms": 1759593600000,
+      "category": "investment_fraud"
+    },
+    {
+      "number": "+85299990004",
+      "reported_at_ms": 1760803200000,
+      "category": "fake_immigration"
+    }
+  ]
 }
