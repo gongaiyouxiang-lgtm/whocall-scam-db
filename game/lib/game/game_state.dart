@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'slide_logic.dart';
 
@@ -15,7 +14,6 @@ class GameState extends ChangeNotifier {
   static const _kWon   = 'g2048_won';
   static const _kOver  = 'g2048_over';
   static const _kKeep  = 'g2048_keep';
-  static const _kMute  = 'g2048_mute';
 
   List<int> grid = List.filled(16, 0);
   int score = 0;
@@ -23,20 +21,17 @@ class GameState extends ChangeNotifier {
   bool won = false;
   bool over = false;
   bool keepGoing = false;
-  bool muted = false;
 
   final newTiles    = <int>{};
   final mergedTiles = <int>{};
 
-  final _rng    = Random();
-  final _player = AudioPlayer();
+  final _rng = Random();
 
   // ── Persistence ───────────────────────────────────────────────
 
   Future<void> load() async {
     final prefs = await SharedPreferences.getInstance();
-    best  = prefs.getInt(_kBest)   ?? 0;
-    muted = prefs.getBool(_kMute)  ?? false;
+    best = prefs.getInt(_kBest) ?? 0;
 
     final raw = prefs.getString(_kGrid);
     if (raw != null) {
@@ -48,7 +43,6 @@ class GameState extends ChangeNotifier {
           won       = prefs.getBool(_kWon)   ?? false;
           over      = prefs.getBool(_kOver)  ?? false;
           keepGoing = prefs.getBool(_kKeep)  ?? false;
-          _startMusic();
           notifyListeners();
           return;
         }
@@ -56,7 +50,6 @@ class GameState extends ChangeNotifier {
     }
 
     _startGame();
-    _startMusic();
     notifyListeners();
   }
 
@@ -72,37 +65,7 @@ class GameState extends ChangeNotifier {
     ]);
   }
 
-  // ── Music ─────────────────────────────────────────────────────
-
-  Future<void> _startMusic() async {
-    if (muted) return;
-    try {
-      await _player.setReleaseMode(ReleaseMode.loop);
-      await _player.play(AssetSource('music/bg_loop.mp3'));
-    } catch (_) {}
-  }
-
-  Future<void> toggleMute() async {
-    muted = !muted;
-    try {
-      if (muted) {
-        await _player.pause();
-      } else {
-        await _startMusic();
-      }
-    } catch (_) {}
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_kMute, muted);
-    notifyListeners();
-  }
-
-  @override
-  void dispose() {
-    _player.dispose();
-    super.dispose();
-  }
-
-  // ── Game Actions ──────────────────────────────────────────────
+  // ── Game Actions ─────────────────────────────────────────────
 
   void newGame() {
     _startGame();
@@ -128,7 +91,7 @@ class GameState extends ChangeNotifier {
     _spawnTile();
   }
 
-  // ── Core Logic ────────────────────────────────────────────────
+  // ── Core Logic ───────────────────────────────────────────────
 
   void _spawnTile() {
     final empty = <int>[];

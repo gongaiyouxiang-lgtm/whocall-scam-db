@@ -25,18 +25,9 @@ class ScoreBar extends StatelessWidget {
           const SizedBox(width: 8),
           _ScoreBox('BEST', game.best),
           const SizedBox(width: 8),
-          Column(
-            children: [
-              IconButton(
-                tooltip: game.muted ? 'Unmute' : 'Mute',
-                icon: Icon(
-                  game.muted ? Icons.volume_off_rounded : Icons.volume_up_rounded,
-                  color: const Color(0xFF8F7A66),
-                ),
-                onPressed: game.toggleMute,
-              ),
-              _ActionButton('New Game', game.newGame),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: _ActionButton('New Game', game.newGame),
           ),
         ],
       ),

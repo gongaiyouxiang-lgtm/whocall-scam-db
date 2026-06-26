@@ -1,5 +1,5 @@
 name: flutter_2048
-description: "2048 tile game with save/resume and background music support."
+description: "2048 tile game with save/resume progress."
 publish_to: none
 version: 1.0.0+1
 
@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^6.1.0
   flutter_animate: ^4.5.0
   shared_preferences: ^2.3.2
 
@@ -21,7 +20,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # To enable background music, place your audio file at assets/music/bg_loop.mp3
-  # then uncomment the lines below:
-  # assets:
-  #   - assets/music/bg_loop.mp3
