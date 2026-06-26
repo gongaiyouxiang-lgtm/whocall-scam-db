@@ -1,0 +1,42 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/2048-game-yftemd
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.5'
+          channel: stable
+          cache: true
+
+      - name: Add Android platform
+        working-directory: game
+        run: flutter create --platforms android .
+
+      - name: Get dependencies
+        working-directory: game
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: game
+        run: flutter build apk --release
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: 2048-game
+          path: game/build/app/outputs/flutter-apk/app-release.apk
+          retention-days: 30
