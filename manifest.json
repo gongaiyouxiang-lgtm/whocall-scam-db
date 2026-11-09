@@ -1,31 +1,31 @@
 {
   "version": 1,
-  "updated_at_ms": 1793590261416,
+  "updated_at_ms": 1794195882963,
   "regions": [
     {
       "source": "TW_165",
       "file": "regional/tw_165.json",
-      "etag": "88b2cf560aaa694f"
+      "etag": "023a9c3a4d2e3ff0"
     },
     {
       "source": "HK_POLICE",
       "file": "regional/hk_police.json",
-      "etag": "ede7bacf57baa3ea"
+      "etag": "4bd1df789c314c5d"
     },
     {
       "source": "CN_12321",
       "file": "regional/cn_12321.json",
-      "etag": "e1de1b46d9b71a13"
+      "etag": "75dfc3eb3d6ee4a5"
     },
     {
       "source": "UK_NCSC",
       "file": "regional/uk_ncsc.json",
-      "etag": "1c1bff786a15b13f"
+      "etag": "cacedbae423fddf2"
     },
     {
       "source": "US_FTC",
       "file": "regional/us_ftc.json",
-      "etag": "7c38a65229f0841e"
+      "etag": "c423570dc7aaa1b3"
     }
   ]
 }
